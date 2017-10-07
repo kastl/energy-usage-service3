@@ -61,9 +61,9 @@
 				</plugins>
 				<resources>
 					<resource>
-						<directory>resources</directory>
+						<directory>src/main/resources</directory>
 						<includes>
-							<include>**/*.csv</include>
+							<include>energyusage.csv</include>
 						</includes>
 					</resource>
 				</resources>
