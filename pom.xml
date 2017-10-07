@@ -64,6 +64,7 @@
 						<directory>src/main/resources</directory>
 						<includes>
 							<include>energyusage.csv</include>
+							<include>**/*.*</include>
 						</includes>
 					</resource>
 				</resources>
