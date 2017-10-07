@@ -1,0 +1,7 @@
+.lefton {
+	padding-left: 25px;
+}
+
+.lefton > p {
+	padding-top: 10px;
+}
