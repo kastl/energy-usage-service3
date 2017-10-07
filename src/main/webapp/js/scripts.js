@@ -8,9 +8,9 @@ $(document).ready(function() {
 	var energies;
 	var energies2;
 
-	var myAPI = "http://192.168.99.100:8080/resources/api/load";
-	var myAPI2 = "http://192.168.99.100:8080/resources/api/weekly";
-	var myAPI3 = "http://192.168.99.100:8080/resources/api/daily";
+	var myAPI = "http://104.236.254.181:8080/resources/api/load";
+	var myAPI2 = "http://104.236.254.181:8080/resources/api/weekly";
+	var myAPI3 = "http://104.236.254.181:8080/resources/api/daily";
 
 	$("#load").click(function(e) {
 
