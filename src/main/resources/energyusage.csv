@@ -1,8 +1,3 @@
-﻿Name,John Smith
-Address,"123 Main St. City, State 34343"
-Account Number,1234-5432
-Service,Service 1
-
 TYPE,DATE,START TIME,END TIME,USAGE,UNITS,NOTES
 Electric usage,2017-08-23,00:00,00:14,0.29,kWh,
 Electric usage,2017-08-23,00:15,00:29,0.29,kWh,

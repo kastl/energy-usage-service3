@@ -1,14 +1,13 @@
 package com.astl.energy.control;
 
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Date;
+import java.util.Scanner;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
@@ -16,15 +15,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-
 import com.astl.energy.boundary.EnergyFacadeREST;
 import com.astl.energy.entity.Energy;
 
 @Singleton
 @Startup
-@LocalBean
 public class CSVLoader {
 
 	@Inject
@@ -36,26 +31,30 @@ public class CSVLoader {
 	public static void main(String[] args) {
 		new CSVLoader().load();
 	}
-	
+
 	@PostConstruct
 	public void load() {
 		try {
-			
+
 			Query deleteAll = em.createNamedQuery("Energy.deleteAll");
 			int result = deleteAll.executeUpdate();
-			
+
 			System.out.println("delete all rows, result = " + result);
-			
+
 			InputStream in = this.getClass().getClassLoader().getResourceAsStream("energyusage.csv");
-			InputStreamReader inReader = new InputStreamReader(in);
 
-			CSVParser parser = CSVParser.parse(inReader, CSVFormat.RFC4180);
+			try (Scanner scanner = new Scanner(in)) {
+				// skip first line
+				if (scanner.hasNextLine()) {
+					scanner.nextLine();
+				}
 
-			parser.forEach(record -> {
-				if (record.size() == 7 && record.get(0).equals("Electric usage")) {
-					Double energyUsed = Double.parseDouble(record.get(4));
-					String date = record.get(1);
-					String time = record.get(2);
+				while (scanner.hasNextLine()) {
+					String line = scanner.nextLine();
+					String[] record = line.split(",");
+					Double energyUsed = Double.parseDouble(record[4]);
+					String date = record[1];
+					String time = record[2];
 					LocalDateTime dateTime = LocalDateTime.parse(date + "T" + time);
 
 					Energy energy = new Energy();
@@ -66,12 +65,9 @@ public class CSVLoader {
 
 					energyFacadeRest.create(energy);
 				}
-
-			});
-
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
 }
